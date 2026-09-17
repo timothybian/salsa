@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zero to Hero Salsa by DancerU</title>
+  <style>
+/* styles.css — native CSS only. Design tokens, responsive layout, a11y support. */
+
+/* ---- Design tokens -------------------------------------------------------- */
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #efece6;
+  --text: #1e1b18;
+  --text-muted: #6b645c;
+  --accent: #c2410c;          /* warm terracotta */
+  --accent-2: #7c2d12;        /* deep terracotta (hero gradient) */
+  --accent-contrast: #ffffff;
+  --border: #e0dbd2;
+  --focus-ring: #2563eb;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.08);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-sm: clamp(.8rem, .78rem + .1vw, .875rem);
+  --fs-base: clamp(.95rem, .9rem + .2vw, 1.05rem);
+  --fs-lg: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+  --fs-xl: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  --fs-2xl: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+  --fs-3xl: clamp(2.2rem, 1.6rem + 3vw, 3.4rem);
+
+  --maxw: 1100px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17140f;
+    --surface: #211d17;
+    --surface-2: #2b261e;
+    --text: #f2ede4;
+    --text-muted: #a89f92;
+    --accent: #f97316;
+    --accent-2: #9a3412;
+    --accent-contrast: #1a1206;
+    --border: #37312a;
+    --focus-ring: #60a5fa;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.5);
+  }
+}
+
+/* ---- Base ----------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: var(--space-2) var(--space-4);
+  z-index: 100;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus { left: 0; }
+
+.noscript {
+  margin: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* ---- Header / tabs -------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.site-title {
+  display: block;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-5) var(--space-2);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: .2px;
+}
+
+.tabs {
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+.tab-list {
+  display: flex;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--space-5) var(--space-2);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.tab-list::-webkit-scrollbar { height: 6px; }
+.tab-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.tab {
+  display: inline-block;
+  white-space: nowrap;
+  padding: var(--space-2) var(--space-3);
+  min-height: 44px;
+  line-height: 28px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  scroll-snap-align: start;
+  transition: color .15s ease, border-color .15s ease;
+}
+.tab:hover { color: var(--text); }
+.tab.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---- View container ------------------------------------------------------- */
+.view {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--space-5);
+  outline: none;
+}
+
+/* ---- Landing: hero -------------------------------------------------------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * 1.5);
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  color: #fff;
+  padding: var(--space-8) var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.10);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  bottom: -80px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+}
+.hero-eyebrow {
+  position: relative;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: .9;
+  margin-bottom: var(--space-3);
+}
+.hero h1 {
+  position: relative;
+  font-size: var(--fs-3xl);
+  margin: 0 0 var(--space-4);
+  line-height: 1.1;
+}
+.hero p {
+  position: relative;
+  font-size: var(--fs-lg);
+  max-width: 58ch;
+  margin: 0;
+  opacity: .95;
+}
+.hero-stats {
+  position: relative;
+  display: flex;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+  flex-wrap: wrap;
+}
+.hero-stat { display: flex; flex-direction: column; }
+.hero-stat b { font-size: var(--fs-xl); }
+.hero-stat span {
+  font-size: var(--fs-sm);
+  opacity: .85;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.section-heading { font-size: var(--fs-xl); margin: 0 0 var(--space-5); }
+
+/* ---- Landing: rich cards -------------------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 12px rgba(0,0,0,.12), 0 16px 36px rgba(0,0,0,.16);
+}
+.card-poster {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--surface-2), var(--border));
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.card-poster .play {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(194,65,12,.92);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+}
+.card-poster .play::after {
+  content: "";
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 3px;
+}
+.card-badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.card-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+.card-title { font-size: var(--fs-lg); font-weight: 600; margin: 0; }
+.card-summary { color: var(--text-muted); margin: 0; flex: 1; }
+
+/* ---- Chips (oval move-name tags) ------------------------------------------ */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.card-chips { margin-top: var(--space-2); }
+.chip {
+  font-size: var(--fs-sm);
+  padding: 2px var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ---- Class page ----------------------------------------------------------- */
+.class-title { font-size: var(--fs-xl); margin: 0 0 var(--space-2); }
+.class-week {
+  color: var(--accent);
+  font-weight: 700;
+}
+.class-summary {
+  color: var(--text-muted);
+  max-width: 65ch;
+  margin: 0 0 var(--space-5);
+}
+.class-chips { margin: 0 0 var(--space-5); }
+
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.video { margin: 0; }
+.video-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+.video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-placeholder {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-style: dashed;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.video-link {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+.video-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .38);
+  transition: background .15s ease;
+}
+.video-link:hover::after,
+.video-link:focus-visible::after {
+  background: rgba(0, 0, 0, .22);
+}
+.video-play {
+  position: relative;
+  z-index: 1;
+  font-size: 2.4rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .6));
+}
+.video-link-label {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+
+/* ---- Moves ---------------------------------------------------------------- */
+.moves-heading {
+  font-size: var(--fs-lg);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+.move-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+.move {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.move-gif {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius);
+  display: block;
+}
+.move-name { font-size: var(--fs-lg); margin: 0 0 var(--space-1); }
+.move-kind {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: var(--fs-xs, 0.75rem);
+  font-weight: 600;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.move-desc { margin: 0; color: var(--text-muted); }
+
+/* ---- Responsive: tablet --------------------------------------------------- */
+@media (min-width: 600px) {
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .move { grid-template-columns: 320px 1fr; align-items: start; }
+}
+
+/* ---- Responsive: desktop -------------------------------------------------- */
+@media (min-width: 960px) {
+  .video-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- Reduced motion ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#view">Skip to content</a>
+
+  <header class="site-header">
+    <a class="site-title" href="#/">Zero to Hero Salsa</a>
+    <nav class="tabs" aria-label="Class navigation">
+      <ul class="tab-list" id="tab-list"><!-- tabs injected by app.js --></ul>
+    </nav>
+  </header>
+
+  <main id="view" class="view" tabindex="-1"><!-- view injected by app.js --></main>
+
+  <noscript>
+    <div class="noscript">
+      This site needs JavaScript to display the course. Please enable JavaScript in your browser.
+    </div>
+  </noscript>
+
+  <script>
+// classes.js — single source of truth for all course content.
+// Loaded as a <script> (a global) rather than fetched, so the site works from file://.
+// Media is intentionally placeholdered: leave youtubeId / gifUrl empty until real links are added.
+// Content grounded in the class videos (Whisper transcripts) + instructor outline.
+window.COURSE = {
+  title: "Zero to Hero Salsa by DancerU",
+  summary:
+    "A collection of our course videos, neatly organized for ease of review — with Herman and Jules! Each week has two videos: an explanation that breaks down what was taught, and a demo danced to music. Browse the summary below, then open any week to watch its videos and study the moves it covers.",
+  classes: [
+    {
+      week: 1,
+      title: "Salsa Basics & Timing",
+      summary:
+        "The on1 basic and side basic, your first right turn with a J-prep, the cross-body lead, and how partner connection works.",
+      videos: {
+        explanation: { youtubeId: "jb2xDzPry0k", title: "Explanation" },
+        demo: { youtubeId: "EKEz1i2W-To", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Basic Step",
+          kind: "Footwork",
+          description:
+            "The on1 basic: step on 1-2-3, 5-6-7 — quick, quick, slow. Stay on the balls of your feet and push off the floor as you step; the heel can touch, but the ball drives the movement.",
+          gifUrl: ""
+        },
+        {
+          name: "Side Basic",
+          kind: "Footwork",
+          description:
+            "The same timing as the basic, stepping side to side instead of forward and back. Danced solo and in partner work as a home position between moves.",
+          gifUrl: ""
+        },
+        {
+          name: "Right Turn (J-Prep)",
+          kind: "Partner work",
+          description:
+            "Your first turn, signalled with a J-shaped prep: prep, pulse, turn. Collect on 3, keep the eye line low, and turn over 5-6-7 with the pulse on 6 telling the follow when to go.",
+          gifUrl: ""
+        },
+        {
+          name: "Cross-Body Lead",
+          kind: "Partner work",
+          description:
+            "The lead gets out of the way on 1-2-3 and the follow crosses to the other side on 5-6-7. Led with the torso and frame centered on the path — not by pulling with the hands.",
+          gifUrl: ""
+        },
+        {
+          name: "Level-3 Connection",
+          kind: "Concept",
+          description:
+            "Tension on a 1-to-10 scale: 1 is barely touching, 10 is pulling each other over. Aim for 3 — less than half. In open position, leads offer Spider-Man hands like shelves and follows hook on with relaxed wrists; leads lift and follows hang, both at level 3.",
+          gifUrl: ""
+        },
+        {
+          name: "Right-to-Right Combo",
+          kind: "Bonus",
+          description:
+            "A bonus combo from a right-to-right handhold, chaining right turns back to back over three phrases of 1-2-3, 5-6-7.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 2,
+      title: "Left Turn & Inside Turn",
+      summary:
+        "The left turn in footwork, and the follow's inside turn led out of a cross-body.",
+      videos: {
+        explanation: { youtubeId: "IjB1O1c_Wwk", title: "Explanation" },
+        demo: { youtubeId: "tdCCpjfH1xk", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Left Turn",
+          kind: "Footwork",
+          description:
+            "The left (counter-clockwise) turn danced solo on the basic timing — the mirror of week 1's right turn, keeping the 1-2-3, 5-6-7 count through the rotation.",
+          gifUrl: ""
+        },
+        {
+          name: "Inside Turn",
+          kind: "Partner work",
+          description:
+            "Starts exactly like a cross-body lead. On 3 the hand stays close to the lead's body, preps out on 5, then goes up and over — a slight pull on 6, hand toward the lead's ear, trailing over the follow's head so she stays balanced through the turn.",
+          gifUrl: ""
+        },
+        {
+          name: "Follow's Turn Frame",
+          kind: "Concept",
+          description:
+            "Follows keep the arm in front at a 90-degree angle so the turn can be led — don't expose the armpit, or the lead loses control of the connection.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 3,
+      title: "Cumbia & the Outside Turn",
+      summary:
+        "The cumbia in footwork, and the outside turn in both its left-hand and right-hand variations.",
+      videos: {
+        explanation: { youtubeId: "iWyujFKvWig", title: "Explanation" },
+        demo: { youtubeId: "9F31kXJ0HPc", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Cumbia",
+          kind: "Footwork",
+          description:
+            "The back-crossing basic: the step tucks under you on 1, replace on 2-3, then the other side on 5. The cumbia break is also the entry that initiates this week's outside turns.",
+          gifUrl: ""
+        },
+        {
+          name: "Outside Turn — Left Hand",
+          kind: "Partner work",
+          description:
+            "Initiated from a cumbia break using the frame. The lead's hand is above the follow's eye line by 3, then normal cross-body footwork while turning her to the right; close the door and settle back into the basic.",
+          gifUrl: ""
+        },
+        {
+          name: "Outside Turn — Right Hand",
+          kind: "Partner work",
+          description:
+            "Same cumbia entry, led right-to-right. Above the eye line by 3, then directional pulses on 5 and 7 — the energy keeps showing her the direction to turn and keeps her balanced.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 4,
+      title: "Mambo Taps & the Shoulder Check",
+      summary:
+        "Mambo taps in footwork, a review of the outside turn, the shoulder check, and the full right-to-right combo.",
+      videos: {
+        explanation: { youtubeId: "W5SzlgLd8Xo", title: "Explanation" },
+        demo: { youtubeId: "o9Vihu85lhg", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Mambo Taps",
+          kind: "Footwork",
+          description:
+            "Accents on all the odd counts — 1, 3, 5, 7 — tapping and pointing to the foot to accentuate each one over the basic.",
+          gifUrl: ""
+        },
+        {
+          name: "Shoulder Check (Rock & Turn)",
+          kind: "Partner work",
+          description:
+            "The follow is checked at the shoulder, rocks, and then turns. If the check doesn't land, it recovers like a normal rock step — rock, then turn.",
+          gifUrl: ""
+        },
+        {
+          name: "Right-to-Right Combo",
+          kind: "Partner work",
+          description:
+            "The week's big pattern: J-prep into an inside turn with the right hand, then the lead turns and the follow turns, finishing into a shoulder check.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 5,
+      title: "Jazz Box & the Hair Comb",
+      summary:
+        "The jazz box in footwork, the hair comb into a free spin, four sets of shines, and a new pattern through the sweetheart position.",
+      videos: {
+        explanation: { youtubeId: "TjiajHBuYvY", title: "Explanation" },
+        demo: { youtubeId: "e0-weHEgOPQ", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Jazz Box",
+          kind: "Footwork",
+          description:
+            "A square-pattern shine over 1-2-3, 5-6-7, plus the jazz box slide variation. Style it up — a little grease up the arm, dirty-dancing flavor, arms placed with intention.",
+          gifUrl: ""
+        },
+        {
+          name: "Hair Comb into Free Spin",
+          kind: "Partner work",
+          description:
+            "From the shoulder check, commit to the right turn and keep the hands right-to-right. The lead combs the joined hand over the follow's head and releases into a free spin.",
+          gifUrl: ""
+        },
+        {
+          name: "Four Sets of Shines",
+          kind: "Partner work",
+          description:
+            "Break away into four phrases of solo footwork, then collect and pull back up into the partner hold on time.",
+          gifUrl: ""
+        },
+        {
+          name: "J-Prep Switch → Cumbia → Sweetheart",
+          kind: "Partner work",
+          description:
+            "The new pattern: a J-prep switch into a cumbia, catching up into the sweetheart (side-by-side) position, then a prep and an outside turn out, finished with a hair comb.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 6,
+      title: "Suzy Q & the Peek-a-Boo",
+      summary:
+        "The Suzy Q in footwork, a review of the sweetheart pattern, and the new peek-a-boo into a right-turn hook and hair comb.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Suzy Q",
+          kind: "Footwork",
+          description:
+            "The crossing shine: feet work in a T/V position — front foot forward, back foot turned — stepping across rather than travelling. The hips rotate while the torso and eye line stay forward, which makes the move read bigger.",
+          gifUrl: ""
+        },
+        {
+          name: "Sweetheart Pattern Review",
+          kind: "Partner work",
+          description:
+            "Running back week 5's pattern: J-prep switch into cumbia, up to the sweetheart, prep, and outside turn out into the hair comb — this time catching on all four points of connection.",
+          gifUrl: ""
+        },
+        {
+          name: "Peek-a-Boo",
+          kind: "Partner work",
+          description:
+            "The new move: the peek-a-boo into a right-turn hook, escaping with a hair comb out.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 7,
+      title: "Review Week",
+      summary:
+        "A consolidation week — running everything from weeks 1-6 on time, together, and to music.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Full Review",
+          kind: "Partner work",
+          description:
+            "Basics, side basic, right and left turns, cross-body lead, inside and outside turns, the shoulder check, and the sweetheart pattern — drilled back to back.",
+          gifUrl: ""
+        },
+        {
+          name: "Dancing to Music",
+          kind: "Concept",
+          description:
+            "Putting the whole vocabulary on the 1-2-3, 5-6-7 count with real songs — keeping the timing unbroken as moves chain together.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 8,
+      title: "Scissor Step & the Sweetheart Walk-Back",
+      summary:
+        "The scissor step in footwork, a shoulder-check variant that walks back through the sweetheart, and its continuation into a wrap.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Scissor Step",
+          kind: "Footwork",
+          description:
+            "This week's shine: a crossing scissor action danced over the basic timing, phrase after phrase.",
+          gifUrl: ""
+        },
+        {
+          name: "Sweetheart Walk-Back",
+          kind: "Partner work",
+          description:
+            "A shoulder-check variant: basic, J-prep on 1-2-3, switch, into the shoulder check, rock — then the lead curves back and pulls up, walking the follow back through the sweetheart position.",
+          gifUrl: ""
+        },
+        {
+          name: "Hair Comb → Wrap → Inside Turn with a Target",
+          kind: "Partner work",
+          description:
+            "The continuation: from any right-to-right ending, hair comb on 1 into a wrap, holding on by curling the fingers. Let her rock on 1, pull back on 2 with enough emphasis to switch and turn her 180. Prep on 5 and place the free hand where she'll see it coming out of the turn — the target.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 9,
+      title: "The Gloria & the Open-Break Combo",
+      summary:
+        "The gloria in footwork, the open break, a long combo built from it, and how to read hand tosses — including the hammerlock.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "The Gloria",
+          kind: "Footwork",
+          description:
+            "A syncopated shine: one-and-three-and-five-and-seven over the basic — the 'ands' give it the double-time flavor.",
+          gifUrl: ""
+        },
+        {
+          name: "Open Break",
+          kind: "Partner work",
+          description:
+            "Signalled by slightly lifting the hands on 7 — different from a normal open position, so the follow knows something new is coming. The lead pushes into her palms while stepping back on 1. Keep the W shape in the arms; extending them fully loses the connection.",
+          gifUrl: ""
+        },
+        {
+          name: "Open-Break Combo",
+          kind: "Partner work",
+          description:
+            "The long pattern: open break, hook into the sweetheart, cumbia outside turn led with the left hand, another open break with a switch, place her hand at the waist and turn on 6-7, a karate-chop release with the forearm into a cross-body lead, then a tap on 5 releasing her into a free spin, and collect — keeping her hand above so it doesn't get trapped.",
+          gifUrl: ""
+        },
+        {
+          name: "Hand Tosses & the Hammerlock",
+          kind: "Concept",
+          description:
+            "Reading a toss by its angle: tossed straight down the center, it comes back down-and-up to a center target. Between 45 and 90 degrees behind, the lead wants a hammerlock — the arm settles gently behind the back. Above 90 degrees, it's a toss away: the lead is asking for the other hand.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 10,
+      title: "New York Walk & the Copa",
+      summary:
+        "Lead-and-follow shine patterns in footwork, and two new partner moves: the New York walk and the copa.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Shine Patterns",
+          kind: "Footwork",
+          description:
+            "Lead-and-follow shine work: one partner leads a shine sequence off one basic and the other follows it back.",
+          gifUrl: ""
+        },
+        {
+          name: "New York Walk",
+          kind: "Partner work",
+          description:
+            "A travelling side-by-side walk down the slot, danced over 1-2-3, 5-6-7, that opens the pair out to face the same direction before collecting back.",
+          gifUrl: ""
+        },
+        {
+          name: "Copa",
+          kind: "Partner work",
+          description:
+            "A sharp check-and-return: the follow is stopped mid-travel and redirected back the way she came — a classic accent that reverses the slot with a snap on 5-6-7.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 11,
+      title: "The Full Routine",
+      summary:
+        "Everything from the course chained into one continuous routine, walked move by move and then danced to music.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Routine, Part 1",
+          kind: "Partner work",
+          description:
+            "Basic, side basic, cross-body lead, inside turn, side basic, outside turn, J-back switch, inside turn — lead turns, follow turns — into a shoulder check, rock, right turn, then four counts of shines.",
+          gifUrl: ""
+        },
+        {
+          name: "Routine, Part 2",
+          kind: "Partner work",
+          description:
+            "J-back switch straight into the sweetheart, walk-walk, peek-a-boo, hook into a wrap, rock-pull-switch to the target, into the basket, hammerlock into a left turn, hand toss, collect, New York walk, right turn with a switch, and finish on the copa.",
+          gifUrl: ""
+        },
+        {
+          name: "Dancing It to Music",
+          kind: "Concept",
+          description:
+            "Running the full routine on time to a real song — the goal the whole course has been building toward.",
+          gifUrl: ""
+        }
+      ]
+    },
+    {
+      week: 12,
+      title: "Graduation & Freestyle",
+      summary:
+        "Combining everything into freestyle: choosing moves in real time and dancing to the music.",
+      videos: {
+        explanation: { youtubeId: "", title: "Explanation" },
+        demo: { youtubeId: "", title: "Demo" }
+      },
+      moves: [
+        {
+          name: "Freestyle Combinations",
+          kind: "Partner work",
+          description:
+            "Chaining the figures from weeks 1-11 in any order in real time, choosing the next move by feel and lead rather than a fixed routine.",
+          gifUrl: ""
+        },
+        {
+          name: "Musicality",
+          kind: "Concept",
+          description:
+            "Matching moves to the music: saving turns and accents for the breaks, dancing softer through the verse, and hitting the phrasing of the song rather than dancing over it.",
+          gifUrl: ""
+        },
+        {
+          name: "Floorcraft",
+          kind: "Concept",
+          description:
+            "Navigating a shared floor safely: keeping the slot small when it is crowded, protecting your partner, and adjusting travel so figures land in the space you have.",
+          gifUrl: ""
+        }
+      ]
+    }
+  ]
+};
+
+</script>
+  <script>
+// app.js — hash router + render logic. Reads only window.COURSE; no other state.
+(function () {
+  "use strict";
+
+  var COURSE = window.COURSE || { title: "Course", summary: "", classes: [] };
+  var viewEl = document.getElementById("view");
+  var tabListEl = document.getElementById("tab-list");
+
+  // --- helpers ---------------------------------------------------------------
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  // Accept a bare YouTube id or a full URL and return the 11-char video id, or "".
+  function youtubeId(raw) {
+    if (!raw) return "";
+    var s = String(raw).trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+    var m = s.match(/(?:v=|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : "";
+  }
+
+  function findClass(week) {
+    var w = parseInt(week, 10);
+    for (var i = 0; i < COURSE.classes.length; i++) {
+      if (COURSE.classes[i].week === w) return COURSE.classes[i];
+    }
+    return null;
+  }
+
+  // --- render: video ---------------------------------------------------------
+
+  function renderVideo(slot, cls) {
+    var id = youtubeId(slot && slot.youtubeId);
+    var label = esc((slot && slot.title) || "Video");
+    if (!id) {
+      return (
+        '<figure class="video">' +
+        '<figcaption class="video-label">' + label + "</figcaption>" +
+        '<div class="video-frame video-placeholder" role="img" aria-label="' +
+        esc("Week " + cls.week + " " + label.toLowerCase() + " video — coming soon") +
+        '"><span>' + label + " video<br>coming soon</span></div>" +
+        "</figure>"
+      );
+    }
+    var title = esc("Week " + cls.week + " " + label.toLowerCase() + " video");
+
+    // YouTube's IFrame player rejects embeds served from a file:// (null) origin
+    // with error 150/153. When the page is opened as a portable file:// bundle,
+    // fall back to a click-through thumbnail that opens the video on youtube.com.
+    var origin = (window.location && window.location.protocol) || "";
+    if (origin !== "http:" && origin !== "https:") {
+      var watch = "https://www.youtube.com/watch?v=" + id;
+      var poster = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+      return (
+        '<figure class="video">' +
+        '<figcaption class="video-label">' + label + "</figcaption>" +
+        '<a class="video-frame video-link" href="' + watch + '" target="_blank" rel="noopener" ' +
+        'style="background-image:url(\'' + poster + '\')" ' +
+        'title="' + title + ' — opens on YouTube">' +
+        '<span class="video-play" aria-hidden="true">&#9658;</span>' +
+        '<span class="video-link-label">Watch on YouTube</span></a>' +
+        "</figure>"
+      );
+    }
+
+    // Served over http(s): use YouTube's canonical share-embed form exactly.
+    var src = "https://www.youtube.com/embed/" + id;
+    return (
+      '<figure class="video">' +
+      '<figcaption class="video-label">' + label + "</figcaption>" +
+      '<div class="video-frame"><iframe src="' + src + '" title="' + title +
+      '" loading="lazy" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"' +
+      ' allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>' +
+      "</figure>"
+    );
+  }
+
+  // --- render: move ----------------------------------------------------------
+
+  function renderMove(move) {
+    var media = "";
+    if (move.gifUrl) {
+      media =
+        '<img class="move-gif" src="' + esc(move.gifUrl) + '" alt="' +
+        esc(move.name + " animation") + '" loading="lazy">';
+    }
+    var kind = move.kind
+      ? '<span class="move-kind">' + esc(move.kind) + "</span>"
+      : "";
+    return (
+      '<li class="move">' +
+      media +
+      '<div class="move-body">' +
+      '<h3 class="move-name">' + esc(move.name) + kind + "</h3>" +
+      '<p class="move-desc">' + esc(move.description) + "</p>" +
+      "</div></li>"
+    );
+  }
+
+  // --- render: views ---------------------------------------------------------
+
+  function renderLanding() {
+    var cards = COURSE.classes
+      .map(function (c) {
+        var chips = (c.moves || [])
+          .slice(0, 4)
+          .map(function (m) { return '<span class="chip">' + esc(m.name) + "</span>"; })
+          .join("");
+        return (
+          '<a class="card" href="#/class/' + c.week + '">' +
+          '<div class="card-poster">' +
+          '<span class="card-badge">Week ' + c.week + "</span>" +
+          '<span class="play" aria-hidden="true"></span>' +
+          "</div>" +
+          '<div class="card-body">' +
+          '<h3 class="card-title">' + esc(c.title) + "</h3>" +
+          '<p class="card-summary">' + esc(c.summary) + "</p>" +
+          '<div class="chips card-chips">' + chips + "</div>" +
+          "</div></a>"
+        );
+      })
+      .join("");
+    return (
+      '<section class="hero">' +
+      '<div class="hero-eyebrow">DancerU &middot; with Herman and Jules</div>' +
+      "<h1>" + esc(COURSE.title) + "</h1>" +
+      "<p>" + esc(COURSE.summary) + "</p>" +
+      '<div class="hero-stats">' +
+      '<div class="hero-stat"><b>' + COURSE.classes.length + "</b><span>Weeks</span></div>" +
+      '<div class="hero-stat"><b>' + (COURSE.classes.length * 2) + "</b><span>Videos</span></div>" +
+      '<div class="hero-stat"><b>Free</b><span>No sign-up</span></div>' +
+      "</div></section>" +
+      '<h2 class="section-heading">Browse the classes</h2>' +
+      '<div class="card-grid">' + cards + "</div>"
+    );
+  }
+
+  function renderClass(cls) {
+    var videos =
+      renderVideo(cls.videos && cls.videos.explanation, cls) +
+      renderVideo(cls.videos && cls.videos.demo, cls);
+    var moves = (cls.moves || []).map(renderMove).join("");
+    var chips = (cls.moves || [])
+      .map(function (m) { return '<li class="chip">' + esc(m.name) + "</li>"; })
+      .join("");
+    var chipRow = chips
+      ? '<ul class="chips class-chips" aria-label="Moves covered this week">' + chips + "</ul>"
+      : "";
+    return (
+      '<section class="class-page">' +
+      '<h1 class="class-title"><span class="class-week">Week ' + cls.week +
+      "</span> " + esc(cls.title) + "</h1>" +
+      '<p class="class-summary">' + esc(cls.summary) + "</p>" +
+      chipRow +
+      '<div class="video-grid">' + videos + "</div>" +
+      '<h2 class="moves-heading">Moves covered</h2>' +
+      '<ul class="move-list">' + moves + "</ul>" +
+      "</section>"
+    );
+  }
+
+  // --- tabs ------------------------------------------------------------------
+
+  function renderTabs(activeWeek) {
+    var items = ['<li><a class="tab' + (activeWeek == null ? " is-active" : "") +
+      '" href="#/"' + (activeWeek == null ? ' aria-current="page"' : "") +
+      ">Summary</a></li>"];
+    COURSE.classes.forEach(function (c) {
+      var active = c.week === activeWeek;
+      items.push(
+        '<li><a class="tab' + (active ? " is-active" : "") + '" href="#/class/' +
+        c.week + '"' + (active ? ' aria-current="page"' : "") +
+        ">Week " + c.week + "</a></li>"
+      );
+    });
+    tabListEl.innerHTML = items.join("");
+  }
+
+  // --- router ----------------------------------------------------------------
+
+  function render() {
+    var hash = window.location.hash || "#/";
+    var m = hash.match(/^#\/class\/(\d+)/);
+    if (m) {
+      var cls = findClass(m[1]);
+      if (cls) {
+        viewEl.innerHTML = renderClass(cls);
+        renderTabs(cls.week);
+        viewEl.focus();
+        return;
+      }
+    }
+    viewEl.innerHTML = renderLanding();
+    renderTabs(null);
+  }
+
+  window.addEventListener("hashchange", render);
+  window.addEventListener("DOMContentLoaded", render);
+  if (document.readyState !== "loading") render();
+})();
+
+</script>
+</body>
+</html>
